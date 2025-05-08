@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useMovieSearch } from "@/hooks/useMovies";
 import Image from "next/image";
+import { Genre, Movie } from "@/types";
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -116,7 +117,7 @@ export default function Header() {
                   <div className="p-4 text-center">No results found</div>
                 ) : (
                   <div>
-                    {searchResults?.slice(0, 5).map((movie: any) => (
+                    {searchResults?.slice(0, 5).map((movie: Movie) => (
                       <Link
                         key={movie.id}
                         href={`/movies/${movie.id}`}
@@ -201,7 +202,7 @@ export default function Header() {
                       className="animate-pulse h-8 w-20 bg-muted rounded"
                     ></li>
                   ))
-              : genres?.map((genre: any) => (
+              : genres?.map((genre: Genre) => (
                   <li key={genre.id}>
                     <Link
                       href={`/genre/${genre.id}`}

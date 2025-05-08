@@ -8,6 +8,7 @@ import { Star, Clock, Calendar, Film, X, Play } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import MovieCardSkeleton from "@/components/main/MovieCardSkeleton";
+import { Genre, Movie, MovieVideo } from "@/types";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -23,7 +24,8 @@ export default function MovieDetails() {
 
   const trailer =
     videos?.find(
-      (video: any) => video.type === "Trailer" && video.site === "YouTube"
+      (video: MovieVideo) =>
+        video.type === "Trailer" && video.site === "YouTube"
     ) || videos?.[0];
 
   if (isLoading) {
@@ -100,7 +102,7 @@ export default function MovieDetails() {
           </h1>
           {movie.tagline && (
             <p className="text-lg md:text-xl text-white/80 italic drop-shadow-md max-w-2xl">
-              "{movie.tagline}"
+              &ldquo;{movie.tagline}&rdquo;
             </p>
           )}
         </div>
@@ -175,7 +177,7 @@ export default function MovieDetails() {
                   Genres
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {movie.genres?.map((genre: any) => (
+                  {movie.genres?.map((genre: Genre) => (
                     <Link href={`/genre/${genre.id}`} key={genre.id}>
                       <Button
                         variant="secondary"

@@ -6,6 +6,7 @@ import MovieCard from "@/components/main/MovieCard";
 import MovieCardSkeleton from "@/components/main/MovieCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { Movie } from "@/types";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -19,12 +20,14 @@ export default function SearchPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">Search results for "{query}"</h1>
+      <h1 className="text-3xl font-bold mb-8">
+        Search results for &ldquo;{query}&rdquo;
+      </h1>
 
       {!isLoading && movies?.length === 0 && (
         <div className="text-center py-16">
           <p className="text-xl text-muted-foreground">
-            No movies found for "{query}"
+            No movies found for &ldquo;{query}&rdquo;
           </p>
         </div>
       )}
@@ -34,7 +37,7 @@ export default function SearchPage() {
           ? Array(20)
               .fill(0)
               .map((_, i) => <MovieCardSkeleton key={i} />)
-          : movies?.map((movie: any) => (
+          : movies?.map((movie: Movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
       </div>

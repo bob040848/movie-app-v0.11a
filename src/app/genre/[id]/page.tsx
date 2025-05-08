@@ -7,6 +7,7 @@ import MovieCard from "@/components/main/MovieCard";
 import MovieCardSkeleton from "@/components/main/MovieCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Genre, Movie } from "@/types";
 
 export default function GenrePage() {
   const { id } = useParams();
@@ -20,7 +21,8 @@ export default function GenrePage() {
   const { movies, totalPages, isLoading } = useMoviesByGenre(genreId, page);
   const { genres } = useGenres();
 
-  const genreName = genres?.find((g: any) => g.id === genreId)?.name || "Genre";
+  const genreName =
+    genres?.find((g: Genre) => g.id === genreId)?.name || "Genre";
 
   return (
     <div>
@@ -31,7 +33,7 @@ export default function GenrePage() {
           ? Array(20)
               .fill(0)
               .map((_, i) => <MovieCardSkeleton key={i} />)
-          : movies?.map((movie: any) => (
+          : movies?.map((movie: Movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
       </div>
