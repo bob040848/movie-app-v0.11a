@@ -8,7 +8,7 @@ import { Star, Clock, Calendar, Film, X, Play } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import MovieCardSkeleton from "@/components/main/MovieCardSkeleton";
-import { Genre, Movie, MovieVideo } from "@/types";
+import { Genre, MovieVideo } from "@/types";
 
 export default function MovieDetails() {
   const { id } = useParams();

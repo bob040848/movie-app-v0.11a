@@ -7,11 +7,11 @@ import MovieCard from "./MovieCard";
 import { Movie } from "@/types";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 
-interface MovieCarouselProps {
+type MovieCarouselProps = {
   title: string;
   movies?: Movie[];
   isLoading?: boolean;
-}
+};
 
 export default function MovieCarousel({
   title,
