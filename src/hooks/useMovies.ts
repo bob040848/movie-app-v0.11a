@@ -8,32 +8,31 @@ import {
   getMovieVideos,
 } from "@/lib/api";
 
-const fetcher = (url: string, ...args: any[]) => {
-  if (url.includes("popular")) {
-    return getPopularMovies(args[0]);
+// Define a proper fetcher function that can handle different API endpoints
+const fetcher = async (key: string) => {
+  // Parse the key to extract the endpoint and parameters
+  const [endpoint, ...params] = key.split("|");
+
+  switch (endpoint) {
+    case "popular":
+      return getPopularMovies(Number(params[0]));
+    case "trending":
+      return getTrendingMovies(params[0]);
+    case "search":
+      return searchMovies(params[0], Number(params[1]));
+    case "genre":
+      return getMoviesByGenre(Number(params[0]), Number(params[1]));
+    case "movie":
+      return getMovieDetails(Number(params[0]));
+    case "videos":
+      return getMovieVideos(Number(params[0]));
+    default:
+      throw new Error(`Unknown endpoint: ${endpoint}`);
   }
-  if (url.includes("trending")) {
-    return getTrendingMovies(args[0]);
-  }
-  if (url.includes("search")) {
-    return searchMovies(args[0], args[1]);
-  }
-  if (url.includes("genre")) {
-    return getMoviesByGenre(args[0], args[1]);
-  }
-  if (url.includes("movie/")) {
-    return getMovieDetails(args[0]);
-  }
-  if (url.includes("trending")) {
-    return getMovieVideos;
-  }
-  return Promise.reject(new Error("Invalid URL"));
 };
 
 export function usePopularMovies(page = 1) {
-  const { data, error, isLoading } = useSWR(`/movie/popular/${page}`, () =>
-    getPopularMovies(page)
-  );
+  const { data, error, isLoading } = useSWR(`popular|${page}`, fetcher);
 
   return {
     movies: data?.results,
@@ -44,10 +43,7 @@ export function usePopularMovies(page = 1) {
 }
 
 export function useTrendingMovies(timeWindow = "day") {
-  const { data, error, isLoading } = useSWR(
-    `/trending/movie/${timeWindow}`,
-    () => getTrendingMovies(timeWindow)
-  );
+  const { data, error, isLoading } = useSWR(`trending|${timeWindow}`, fetcher);
 
   return {
     movies: data?.results,
@@ -58,8 +54,8 @@ export function useTrendingMovies(timeWindow = "day") {
 
 export function useMovieSearch(query: string, page = 1) {
   const { data, error, isLoading } = useSWR(
-    query ? `/search/movie/${query}/${page}` : null,
-    () => searchMovies(query, page)
+    query ? `search|${query}|${page}` : null,
+    fetcher
   );
 
   return {
@@ -72,8 +68,8 @@ export function useMovieSearch(query: string, page = 1) {
 
 export function useMoviesByGenre(genreId: number, page = 1) {
   const { data, error, isLoading } = useSWR(
-    genreId ? `/genre/${genreId}/${page}` : null,
-    () => getMoviesByGenre(genreId, page)
+    genreId ? `genre|${genreId}|${page}` : null,
+    fetcher
   );
 
   return {
@@ -86,8 +82,8 @@ export function useMoviesByGenre(genreId: number, page = 1) {
 
 export function useMovieDetails(movieId: number) {
   const { data, error, isLoading } = useSWR(
-    movieId ? `/movie/${movieId}` : null,
-    () => getMovieDetails(movieId)
+    movieId ? `movie|${movieId}` : null,
+    fetcher
   );
 
   return {
@@ -99,8 +95,8 @@ export function useMovieDetails(movieId: number) {
 
 export function useMovieVideos(movieId: number) {
   const { data, error, isLoading } = useSWR(
-    movieId ? `/movie/${movieId}/videos` : null,
-    () => getMovieVideos(movieId)
+    movieId ? `videos|${movieId}` : null,
+    fetcher
   );
 
   return {

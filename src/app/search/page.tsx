@@ -2,8 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useMovieSearch } from "@/hooks/useMovies";
-import MovieCard from "@/components/common/MovieCard";
-import MovieCardSkeleton from "@/components/common/MovieCardSkeleton";
+import MovieCard from "@/components/main/MovieCard";
+import MovieCardSkeleton from "@/components/main/MovieCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 

@@ -19,6 +19,12 @@ export default function Header() {
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Add useEffect to handle client-side mounting
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { movies: searchResults, isLoading: isLoadingSearch } = useMovieSearch(
     searchQuery.length >= 2 ? searchQuery : ""
@@ -54,7 +60,7 @@ export default function Header() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold">
             <Film className="h-6 w-6" />
-            <span>MovieHub</span>
+            <span>Movie Showcase</span>
           </Link>
 
           <div ref={searchContainerRef} className="relative w-full md:w-96">
@@ -127,6 +133,7 @@ export default function Header() {
                               alt={movie.title}
                               fill
                               className="object-cover rounded-sm"
+                              sizes="100vw"
                             />
                           </div>
                           <div className="flex-1 min-w-0">
@@ -156,7 +163,7 @@ export default function Header() {
                             setShowSearchResults(false);
                           }}
                         >
-                          View all results
+                          All Movie Results
                         </Button>
                       </div>
                     )}
@@ -166,18 +173,21 @@ export default function Header() {
             )}
           </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
-          </Button>
+          {/* Only render the theme button when component is mounted on client */}
+          {mounted && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+          )}
         </div>
 
         <nav className="mt-4 overflow-x-auto">

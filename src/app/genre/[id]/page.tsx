@@ -3,8 +3,8 @@
 import { useParams } from "next/navigation";
 import { useMoviesByGenre } from "@/hooks/useMovies";
 import { useGenres } from "@/hooks/useGenres";
-import MovieCard from "@/components/common/MovieCard";
-import MovieCardSkeleton from "@/components/common/MovieCardSkeleton";
+import MovieCard from "@/components/main/MovieCard";
+import MovieCardSkeleton from "@/components/main/MovieCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 

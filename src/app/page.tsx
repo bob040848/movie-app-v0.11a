@@ -1,7 +1,7 @@
 "use client";
 
 import { usePopularMovies, useTrendingMovies } from "@/hooks/useMovies";
-import MovieCarousel from "@/components/common/MovieCarousel";
+import MovieCarousel from "@/components/main/MovieCarousel";
 
 export default function Home() {
   const { movies: popularMovies, isLoading: isLoadingPopular } =
